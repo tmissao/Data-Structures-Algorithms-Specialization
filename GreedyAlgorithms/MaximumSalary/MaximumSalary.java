@@ -24,8 +24,8 @@ public class MaximumSalary {
     }
 
     /**
-     * Calculates the quantity of prizes and their values given the number of prizes
-     * Complexity: O( n^(1/2) )
+     * Calculates the maximum number that can be built given a list of numbers
+     * Complexity: O( nlog(n) ) + O( n ) => O(nlog(n))
      * Explanation: The nlog(n) comes from native java sort function [Collection.sort()]
      */
     private static String calculateMaximumNumberConcat(CustomNumber[] numbers) {
@@ -46,6 +46,9 @@ public class MaximumSalary {
     }
 }
 
+/*
+ * Custom Class to create a new way to compare two numbers
+ */
 class CustomNumber implements Comparable<CustomNumber> {
 
     private String value;

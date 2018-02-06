@@ -28,7 +28,6 @@ public class MaximumNumberOfPrizes {
     /**
      * Calculates the quantity of prizes and their values given the number of prizes
      * Complexity: O( n^(1/2) )
-     * Explanation: The nlog(n) comes from native java sort function [Collection.sort()]
      */
     private static ArrayList<Long> calculateMaximumNumberOfPrizes(long numberOfPrizes) {
         ArrayList<Long> prizes = new ArrayList<>();
