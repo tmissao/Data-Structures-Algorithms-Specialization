@@ -3,7 +3,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class QuickSort {
+public class QuickSort3 {
 
     /**
      * Handles program inputs
@@ -26,6 +26,7 @@ public class QuickSort {
     }
 
     /**
+     * A Better implementation of quickSort algorithm to work with an array where its values are not distinct.
      * Sorts the array using the quickSort algorithm which is O(nlog(n)) in the average case
      */
     private static void sort(long[] numbers, int start, int end) {
@@ -33,54 +34,48 @@ public class QuickSort {
             return;
         }
 
-        int pivot = partition(numbers, start, end);
+        Pivot pivot = partition(numbers, start, end);
 
-        sort(numbers, start, pivot - 1);
-        sort(numbers, pivot + 1, end);
+        sort(numbers, start, pivot.getLeftIndex());
+        sort(numbers, pivot.getRightIndex(), end);
     }
 
     /**
      * Divides the array in two subarrays which the left part is lower than the pivot value and
      * the right part is greater or equals than the pivot
      */
-    private static int partition(long[] numbers, int start, int end){
+    private static Pivot partition(long[] numbers, int start, int end){
         int pivot = (start + end) / 2;
+        int pivotDuplicates = 0;
         long value = numbers[pivot];
 
         int key = start;
 
         swap(numbers, pivot, end);
 
-        for (int i = start; i < end; i++) {
+        for (int i = start; i < end - pivotDuplicates; i++) {
             if (numbers[i] < value) {
                 swap(numbers, key++, i);
+            }
+
+            // When the value is equal to the pivot this value is swap with the
+            // last array value that is not equals to the pivot
+            // Since the element i was swapped it needs to be verified again
+            if (numbers[i] == value) {
+                swap(numbers, i, end - pivotDuplicates - 1);
+                pivotDuplicates++;
+                i--;
             }
         }
 
         swap(numbers, key, end);
 
-        return key;
-    }
-
-    /*private static int partition(long[] numbers, int start, int end){
-        int pivot = (start + end) / 2;
-        long value = numbers[pivot];
-
-        int leftIndex = start;
-        int rightIndex = end -1;
-
-        swap(numbers, pivot, end);
-
-        while(leftIndex < rightIndex) {
-            while(numbers[leftIndex] < value) leftIndex++;
-            while(numbers[rightIndex] > value) rightIndex--;
-            if (leftIndex < rightIndex) swap(numbers, leftIndex++, rightIndex--);
+        for (int i = 1; i <= pivotDuplicates; i++) {
+            swap(numbers, key + i, end - i);
         }
 
-        swap(numbers, leftIndex, end);
-
-        return leftIndex;
-    }*/
+        return new Pivot(key - 1, key + pivotDuplicates + 1);
+    }
 
     /**
      * Swaps the value between two index in the array
@@ -93,6 +88,28 @@ public class QuickSort {
 
     public static void main(String[] args) {
         run();
+    }
+}
+
+/**
+ * Contains information about the pivot in quicksort
+ */
+class Pivot {
+
+    private int leftIndex;
+    private int rightIndex;
+
+    Pivot(int leftIndex, int rightIndex) {
+        this.leftIndex = leftIndex;
+        this.rightIndex = rightIndex;
+    }
+
+    public int getLeftIndex() {
+        return leftIndex;
+    }
+
+    public int getRightIndex() {
+        return rightIndex;
     }
 }
 
