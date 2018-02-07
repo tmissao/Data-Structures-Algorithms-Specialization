@@ -41,8 +41,8 @@ public class QuickSort3 {
     }
 
     /**
-     * Divides the array in two subarrays which the left part is lower than the pivot value and
-     * the right part is greater or equals than the pivot
+     * Divides the array in three sub-arrays which the first part is lower than the pivot value,
+     * the second is equals to the pivot value, and the thrid part is greater than the pivot value.
      */
     private static Pivot partition(long[] numbers, int start, int end){
         int pivot = (start + end) / 2;
