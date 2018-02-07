@@ -26,7 +26,7 @@ public class MergeSort {
     }
 
     /**
-     * Sorts the array using the mergeSort algorithm which is O(n^2) in the worst case
+     * Sorts the array using the mergeSort algorithm which is O(nlog(n)) in the worst case
      */
     private static void sort(long[] numbers, int start, int end) {
         if (start >= end) {
