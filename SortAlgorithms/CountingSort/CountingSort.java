@@ -30,7 +30,7 @@ public class CountingSort {
     }
 
     /**
-     * Sorts the array using the countingSort algorithm which is O(n), when maxValue < nlog(n)
+     * Sorts the array using the countingSort algorithm which is O(n + k), where k is the maxValue in the array
      */
     private static void sort(int[] numbers, int maxValue) {
         int[] counting = new int[maxValue+1];
