@@ -44,7 +44,7 @@ public class QuickSort {
      * the right part is greater or equals than the pivot
      */
     private static int partition(long[] numbers, int start, int end){
-        int pivot = (start + end) / 2;
+        int pivot = start + (int)(Math.random() * ((end - start) + 1));
         long value = numbers[pivot];
 
         int key = start;
