@@ -45,7 +45,7 @@ public class QuickSort3 {
      * the second is equals to the pivot value, and the thrid part is greater than the pivot value.
      */
     private static Pivot partition(long[] numbers, int start, int end){
-        int pivot = (start + end) / 2;
+        int pivot = start + (int)(Math.random() * ((end - start) + 1));
         int pivotDuplicates = 0;
         long value = numbers[pivot];
 
