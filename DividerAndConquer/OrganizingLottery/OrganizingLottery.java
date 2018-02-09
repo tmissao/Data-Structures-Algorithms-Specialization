@@ -15,35 +15,40 @@ public class OrganizingLottery {
         int segments = scanner.nextInt();
         int points = scanner.nextInt();
 
-        Struct[] structs = new Struct[2 * segments + points];
+        Model[] model = new Model[2 * segments + points];
 
         for(int i = 0; i < segments; i++) {
-            structs[2 * i] = new Struct(scanner.nextLong(), 'l');
-            structs[2 * i + 1] = new Struct(scanner.nextLong(), 'r');
+            model[2 * i] = new Model(scanner.nextLong(), 'l');
+            model[2 * i + 1] = new Model(scanner.nextLong(), 'r');
         }
 
         for(int i = 0; i < points; i++) {
-            structs[2 * segments + i] = new Struct(scanner.nextLong(), 'p', i);
+            model[2 * segments + i] = new Model(scanner.nextLong(), 'p', i);
         }
 
-        long[] result = calculateIntersections(structs, segments, points);
+        long[] result = calculateIntersections(model, segments, points);
 
         for(int i = 0; i < result.length; i++) {
             System.out.print( i == 0 ? result[i] : " " + result[i] );
         }
     }
 
-    private static long[] calculateIntersections(Struct[] structs, int segments, int points) {
+    /**
+     * Calculates how many point are in the intersections for that, the algorithm builds a 2D model
+     * and sort it.
+     * Complexity: O((2k + n)log(2k + n) + n) => O(nlog(n)) where k is the number of segments and n points
+     */
+    private static long[] calculateIntersections(Model[] models, int segments, int points) {
         long[] result = new long[points];
 
-        Arrays.sort(structs);
+        Arrays.sort(models);
 
         long open = 0;
         long closed = 0;
 
-        for(int i = 0; i < structs.length && closed < segments; i++ ) {
-            Struct struct = structs[i];
-            char type = struct.getType();
+        for(int i = 0; i < models.length && closed < segments; i++ ) {
+            Model model = models[i];
+            char type = model.getType();
 
             if (type == 'l') {
                 open++;
@@ -51,7 +56,7 @@ public class OrganizingLottery {
             }
 
             if (type == 'p') {
-                result[struct.getIndex()] = open;
+                result[model.getIndex()] = open;
                 continue;
             }
 
@@ -67,26 +72,29 @@ public class OrganizingLottery {
     }
 }
 
-class Struct implements Comparable<Struct>{
+/**
+ *  Model utilized to build 2D view
+ */
+class Model implements Comparable<Model>{
 
     private long coordinate;
     private char type;
     private int index;
 
-    public Struct(long coordinate, char type, int index) {
+    public Model(long coordinate, char type, int index) {
         this.coordinate = coordinate;
         this.type = type;
         this.index = index;
     }
 
-    public Struct(long coordinate, char type) {
+    public Model(long coordinate, char type) {
         this.coordinate = coordinate;
         this.type = type;
         this.index = -1;
     }
 
     @Override
-    public int compareTo(Struct next) {
+    public int compareTo(Model next) {
         if (this.coordinate > next.coordinate ) return 1;
         if (this.coordinate < next.coordinate ) return -1;
         return this.type - next.type;
@@ -94,7 +102,7 @@ class Struct implements Comparable<Struct>{
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Struct{");
+        final StringBuffer sb = new StringBuffer("Model{");
         sb.append("coordinate=").append(coordinate);
         sb.append(", type=").append(type);
         sb.append(", index=").append(index);
