@@ -35,7 +35,7 @@ public class LongestCommonSubsequenceOfTwoSequences {
 
     /**
      *  Calculates the length of the longest common subsequence of two sequences
-     *  Complexity: O( n + m ), where n is the length of the first sequence and m the length
+     *  Complexity: O( n * m ), where n is the length of the first sequence and m the length
      *  of the second one.
      */
     private static void longestCommonSubsequence(long[] S1, long[] S2, long[][] DP) {
