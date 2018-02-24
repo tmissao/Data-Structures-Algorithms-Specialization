@@ -131,6 +131,28 @@ public class LinkedList<T> {
     return null;
   }
 
+  private Node reverseR(Node node) {
+    if (node.getNext() == null) {
+      return node;
+    }
+
+    reverseR(node.getNext()).setNext(node);
+    return node;
+  }
+
+  public void reverse() {
+    if (head == tail) {
+      return;
+    }
+
+    Node node = head;
+
+    reverseR(node);
+
+    head = tail;
+    tail = node;
+  }
+
   public void print() {
     Node node = head;
     StringBuilder sb = new StringBuilder();

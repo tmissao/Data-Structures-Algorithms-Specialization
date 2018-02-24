@@ -139,7 +139,7 @@ public class LinkedListTest {
   @org.junit.Test
   public void removeLast() throws Exception {
     for(int i = 0; i<50; i++) {
-      Long value =  (long) i;//random.nextLong();
+      Long value =  random.nextLong();
       customList.addFirst(value);
       list.addFirst(value);
 
@@ -195,5 +195,33 @@ public class LinkedListTest {
   @org.junit.Test
   public void removeEmpty() throws Exception {
     assertThat(customList.remove(10L)).isEqualTo(null);
+  }
+
+  @org.junit.Test
+  public void reverseEmpty() throws Exception {
+    assertThat(customList.getLast()).isEqualTo(null);
+    assertThat(customList.getFirst()).isEqualTo(null);
+  }
+
+  @org.junit.Test
+  public void reverseOne() throws Exception {
+    customList.addFirst(10L);
+    assertThat(customList.getLast()).isEqualTo(10L);
+    assertThat(customList.getFirst()).isEqualTo(10L);
+  }
+
+  @org.junit.Test
+  public void reverse() throws Exception {
+    for(int i = 0; i<50; i++) {
+      Long value =  random.nextLong();
+      customList.addFirst(value);
+      list.addLast(value);
+    }
+
+    customList.reverse();
+
+    for(int i = 0; i< 50; i++) {
+      assertThat(list.removeLast()).isEqualTo(customList.removeLast());
+    }
   }
 }
