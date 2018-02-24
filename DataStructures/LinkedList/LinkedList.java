@@ -1,12 +1,27 @@
 public class LinkedList<T> {
 
+  /**
+   * First Element Address
+   */
   private Node<T> head;
+
+  /**
+   * Last Element Address
+   */
   private Node<T> tail;
 
+  /**
+   * Checks if the list is empty
+   * Complexity: O(1)
+   */
   public boolean isEmpty() {
     return head == null;
   }
 
+  /**
+   * Adds an element at the first position in the list
+   * Complexity: O(1)
+   */
   public void addFirst(T key) {
     Node<T> node = new Node<>(key);
 
@@ -20,6 +35,10 @@ public class LinkedList<T> {
     head = node;
   }
 
+  /**
+   * Adds an element at the last position in the list
+   * Complexity: O(1)
+   */
   public void addLast(T key) {
     Node node = new Node<>(key);
 
@@ -33,14 +52,26 @@ public class LinkedList<T> {
     tail = node;
   }
 
+  /**
+   * Gets the first element in the list
+   * Complexity: O(1)
+   */
   public T getFirst() {
     return head != null ? head.getKey() : null;
   }
 
+  /**
+   * Gets the last element in the list
+   * Complexity: O(1)
+   */
   public T getLast() {
     return tail != null ? tail.getKey() : null;
   }
 
+  /**
+   * Searches for a specific element in the list
+   * Complexity: O(n)
+   */
   public Node search(long key) {
     Node node = head;
 
@@ -54,6 +85,10 @@ public class LinkedList<T> {
     return null;
   }
 
+  /**
+   * Searches for the previous node of an specific element in the list
+   * Complexity: O(n)
+   */
   private Node<T> searchPrevious(T key) {
     Node<T> node = head;
     Node<T> previous = null;
@@ -71,6 +106,10 @@ public class LinkedList<T> {
     return null;
   }
 
+  /**
+   * Removes the first element in the list
+   * Complexity: O(1)
+   */
   public T removeFirst() {
     if (head == null) { return null; }
 
@@ -85,6 +124,10 @@ public class LinkedList<T> {
     return node.getKey();
   }
 
+  /**
+   * Removes the last element in the list
+   * Complexity: O(1)
+   */
   public T removeLast() {
     if (tail == null) { return null; }
 
@@ -104,6 +147,10 @@ public class LinkedList<T> {
     return node.getKey();
   }
 
+  /**
+   * Remove a specific element in the list
+   * Complexity: O(n)
+   */
   public T remove(T key) {
     Node<T> node = head;
     Node<T> previous = null;
@@ -131,6 +178,9 @@ public class LinkedList<T> {
     return null;
   }
 
+  /**
+   * Reverses get next node of a list without use an extra variable
+   */
   private Node reverseR(Node node) {
     if (node.getNext() == null) {
       return node;
@@ -140,6 +190,10 @@ public class LinkedList<T> {
     return node;
   }
 
+  /**
+   * Reverses a list
+   * Complexity: O(n)
+   */
   public void reverse() {
     if (head == tail) {
       return;
@@ -153,6 +207,9 @@ public class LinkedList<T> {
     tail = node;
   }
 
+  /**
+   * Prints a list
+   */
   public void print() {
     Node node = head;
     StringBuilder sb = new StringBuilder();
@@ -166,6 +223,9 @@ public class LinkedList<T> {
   }
 }
 
+/**
+ * Auxiliary class used to keep the reference of the value and the next element
+ */
 class Node<T> {
 
   private final T key;
