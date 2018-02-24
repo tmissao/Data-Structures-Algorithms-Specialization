@@ -126,7 +126,7 @@ public class LinkedList<T> {
 
   /**
    * Removes the last element in the list
-   * Complexity: O(1)
+   * Complexity: O(n)
    */
   public T removeLast() {
     if (tail == null) { return null; }
