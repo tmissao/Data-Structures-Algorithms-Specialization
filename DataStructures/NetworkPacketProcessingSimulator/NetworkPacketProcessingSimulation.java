@@ -27,44 +27,60 @@ public class NetworkPacketProcessingSimulation {
         for (Packet packet : packets) System.out.println(packet.getStartProcessing());
     }
 
+    /**
+     * Simulates package networking process with a buffer
+     * Complexity: O(n)
+     */
     private static void simulate(int bufferSize, Queue<Packet> packets) {
-        Queue<Packet> buffer = new LinkedList<>();
+        LinkedList<Packet> buffer = new LinkedList<>();
         long time = 0;
 
         while(!packets.isEmpty() || !buffer.isEmpty()) {
 
+            // Remove all already processed packets
+            while(!buffer.isEmpty() && buffer.getFirst().getFinalTime() <= time) {
+                Packet packet = buffer.removeFirst();
+                packet.setStartProcessing(packet.getFinalTime() - packet.getProcessTime());
+            }
+
             while(!packets.isEmpty() && packets.peek().getArrivalTime() <= time) {
                 Packet packet = packets.remove();
 
-                if(packet.getProcessTime() == 0 && buffer.isEmpty()) {
+                // Checks if Buffer is full
+                if (buffer.size() >= bufferSize ) {
+                    packet.setStartProcessing(-1);
+                    continue;
+                }
+
+                // If buffer is empty and the packet process time is zero, it does not need enter in the buffer
+                // Because it goes directly to process
+                if (buffer.isEmpty() && packet.getProcessTime() == 0) {
                     packet.setStartProcessing(time);
                     continue;
                 }
 
-                if(buffer.size() >= bufferSize) {
-                    packet.setStartProcessing(-1);
-                    continue;
+                // If buffer is empty the packet will be processed at time + packet process time
+                // Otherwise will be time of the last packet will be processed + packet process time
+                if (buffer.isEmpty()) {
+                    packet.setFinalTime(time + packet.getProcessTime());
+                } else {
+                    packet.setFinalTime(buffer.getLast().getFinalTime() + packet.getProcessTime());
                 }
 
                 buffer.add(packet);
             }
 
-            if (buffer.isEmpty() && packets.isEmpty()) {
-                return;
-            }
-
-            if (buffer.isEmpty()) {
+            // The next time to be check will be the lower time between a new packet arrive and a packet get processed
+            if (!buffer.isEmpty() && !packets.isEmpty()) {
+                time = buffer.getFirst().getFinalTime() < packets.peek().getArrivalTime()
+                    ? buffer.getFirst().getFinalTime() : packets.peek().getArrivalTime();
+            } else if (!buffer.isEmpty()) {
+                time = buffer.getFirst().getFinalTime();
+            } else if (!packets.isEmpty()) {
                 time = packets.peek().getArrivalTime();
-                continue;
             }
-
-            Packet packet = buffer.remove();
-            packet.setStartProcessing(time);
-            time += packet.getProcessTime();
         }
     }
-
-
 
     public static void main(String[] args) {
         run();
@@ -75,6 +91,7 @@ class Packet {
 
     private final long arrivalTime;
     private final long processTime;
+    private long finalTime;
     private long startProcessing;
 
     public Packet(long arrivalTime, long processTime) {
@@ -97,6 +114,14 @@ class Packet {
 
     public void setStartProcessing(long startProcessing) {
         this.startProcessing = startProcessing;
+    }
+
+    public long getFinalTime() {
+        return finalTime;
+    }
+
+    public void setFinalTime(long finalTime) {
+        this.finalTime = finalTime;
     }
 }
 
