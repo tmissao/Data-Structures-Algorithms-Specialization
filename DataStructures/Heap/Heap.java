@@ -22,21 +22,21 @@ public class Heap {
      * Gets the parent of an index
      */
     private int getParent(int index) {
-        return index / 2;
+        return (index - 1 )/ 2;
     }
 
     /**
      * Gets the left child of a node
      */
     private int getLeftChild(int index) {
-        return 2 * index;
+        return 2 * (index + 1) - 1;
     }
 
     /**
      * Gets the right child of a node
      */
     private int getRightChild(int index) {
-        return 2 * index + 1;
+        return 2 * (index + 1);
     }
 
     /**
@@ -98,7 +98,15 @@ public class Heap {
      * @return O(1)
      */
     public boolean isEmpty() {
-        return size != 0;
+        return size == 0;
+    }
+
+    /**
+     * Gets heap current size
+     * @return O(1)
+     */
+    public int getSize() {
+        return size;
     }
 
     /**
